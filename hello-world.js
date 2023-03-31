@@ -1,12 +1,14 @@
+fabric.Path.prototype.selectable = false;
+
 // Create a new fabric.js canvas
 const canvas = new fabric.Canvas('canvas')
 
 // Set the canvas background color
-canvas.setBackgroundColor('#ff0000')
+canvas.setBackgroundColor('#ffffff')
 
 // Set the brush size and color
 canvas.freeDrawingBrush.width = 10
-canvas.freeDrawingBrush.color = '#00ff00'
+canvas.freeDrawingBrush.color = '#ff0000'
 
 // Enable free drawing mode
 canvas.isDrawingMode = true
@@ -16,9 +18,27 @@ canvas.renderAll()
 
 canvas.on('mouse:down', function (options) {
 	if(options.target===null){
-		console.log('canvas');
+		console.log('null(canvas)');
 		canvas.isDrawingMode = true
+		return;
 	}
+
+	if(options.target.type==='path'){
+		console.log('path');
+		canvas.isDrawingMode = true
+		options.target.set('selectable', false);
+		// canvas.setActiveObject(null);
+		options.target.set('active',false);
+		return;
+	}
+
+	console.log('options.target.type',options.target.type);
+
+	// mouse:downしたターゲットが画像だったら
+	// if(options.target && options.target.type==='image'){
+	// 	console.log('image');
+	// 	canvas.isDrawingMode = false
+	// }
 });
 
 // canvasでオブジェクト選択ボックスの表示をしない
